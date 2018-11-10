@@ -1,0 +1,21 @@
+- name: Install Mysql Server
+  apt: name={{item.name}} state={{item.state|default("present")}}
+  with_items:
+    - name: "mysql-server"
+      state: "latest"
+    - name: "python-mysqldb"
+
+- name: Configure Mysql Server
+  template: src="templates/my.cnf.j2" dest="/etc/mysql/my.cnf" owner=root group=root mode=0644
+
+- name: Start Mysql the First Time
+  shell: service mysql start
+  
+- name: Set the Root Password.
+  mysql_user: 
+    name=root 
+    host=localhost
+    password={{ mysql_root_password }}  
+    
+- name: Restart Mysql Server
+  shell: service mysql restart

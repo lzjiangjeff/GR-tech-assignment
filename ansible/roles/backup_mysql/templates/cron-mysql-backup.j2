@@ -1,0 +1,16 @@
+#!/bin/bash
+
+OUTPUT="{{ mysql_backup_dir | quote }}/$(date +{{ mysql_backup_filename_format | quote }})"
+/usr/bin/mysqldump --all-databases -u{{ mysql_backup_user_name }} -p{{ mysql_backup_user_password }} -r "$OUTPUT.tmp"
+
+size=$(stat -c%s "$OUTPUT.tmp")
+if [ $size -lt {{ mysql_backup_minimum_expected_size }} ]; then
+    echo "ERROR: Database backup '$OUTPUT.tmp' is less than {{ mysql_backup_minimum_expected_size }} bytes"
+    exit 2
+fi
+
+mv "$OUTPUT.tmp" "$OUTPUT"
+
+md5sum "$OUTPUT" > "$OUTPUT.md5"
+
+sshpass -p "{{ ssh_user_password }}" scp -P {{ backup_server_port }} -v -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r "$OUTPUT" "$OUTPUT.md5" {{ ssh_user_name }}@{{ backup_server }}:/backup/mysql

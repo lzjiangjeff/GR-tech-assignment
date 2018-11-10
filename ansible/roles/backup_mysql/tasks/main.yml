@@ -1,0 +1,17 @@
+- name: create backup directory
+  become: yes
+  file:
+    path: "{{ mysql_backup_dir }}"
+    recurse: yes
+    state: directory
+
+- name: create cron job
+  become: yes
+  template:
+    src: cron-mysql-backup.j2
+    dest: /etc/cron.{{ mysql_backup_frequency }}/mysql-backup
+    mode: 0755
+    
+- name: restart cron daemon
+  become: yes
+  shell: service cron restart

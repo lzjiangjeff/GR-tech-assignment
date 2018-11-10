@@ -1,0 +1,10 @@
+mysql_backup_dir: /backup/mysql
+mysql_backup_filename_format: "{{ ansible_hostname }}-database-%Y%m%d-%H%M%S.mysqldump"
+mysql_backup_frequency: daily
+mysql_backup_minimum_expected_size: 1
+mysql_backup_user_name: root
+mysql_backup_user_password: securepasswd
+ssh_user_password: securepasswd
+backup_server_port: 22222
+ssh_user_name: root
+backup_server: 192.168.1.72

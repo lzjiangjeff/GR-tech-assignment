@@ -1,0 +1,7 @@
+data_dir: /var/lib/mysql
+socket_dir: /var/run/mysqld/mysql.sock
+mysql_user: mysql
+log_error_dir: /var/log/mysql/error.log
+pid_dir: /var/run/mysqld/mysqld.pid
+listen_port: 3306
+mysql_root_password: securepasswd

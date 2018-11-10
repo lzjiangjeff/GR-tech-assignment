@@ -1,0 +1,7 @@
+- hosts: mysql1
+  roles: 
+    - { role: install_mysql, dir: './roles/install_mysql', tags: 'install_mysql' }
+    - { role: backup_mysql, dir: './roles/backup_mysql', tags: 'backup_mysql' }
+- hosts: backup1
+  roles: 
+    - { role: verify_backup, dir: './roles/verify_backup', tags: 'verify_backup' }

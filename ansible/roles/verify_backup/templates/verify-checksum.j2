@@ -1,0 +1,15 @@
+#!/bin/bash
+
+BACKUPS=`find {{ mysql_backup_dir }} -name '*'md5 | xargs echo`
+
+for i in $BACKUPS
+do
+    md5sum -c $i
+    if [ "$?" -eq 1 ]; then
+        result=1
+    fi
+done
+find {{ mysql_backup_dir }} -name '*'bad.md5 | xargs --no-run-if-empty rm -f 
+exit $result
+
+

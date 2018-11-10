@@ -1,0 +1,12 @@
+[mysqld]
+datadir={{data_dir}}
+socket={{socket_dir}}
+port={{listen_port}}
+user={{mysql_user}}
+
+[mysqld_safe]
+log-error={{log_error_dir}}
+pid-file={{pid_dir}}
+
+!includedir /etc/mysql/mysql.conf.d
+!includedir /etc/mysql/conf.d
